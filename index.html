@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel de Mascotas VIP 🐾✨</title>
+    <meta name="description" content="Sistema de monitoreo para tu mascota en nuestro hotel canino. Visualiza en tiempo real a tu compañero peludo.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <h3 id="loader-text">Preparando la transmisión...</h3>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="navbar-brand">
+                    <i class="bi bi-heart-fill"></i> Hotel de Mascotas VIP
+                </a>
+                <div class="navbar-actions" id="auth-buttons">
+                    <button class="btn btn-outline-primary btn-sm" id="btn-login">
+                        <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                    </button>
+                    <button class="btn btn-primary btn-sm" id="btn-register">
+                        <i class="bi bi-person-plus"></i> Registrarse
+                    </button>
+                </div>
+                <div class="user-info" id="user-info" style="display: none;">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <div class="user-name" id="user-name">Usuario</div>
+                    <button class="btn btn-danger btn-sm" id="btn-logout">
+                        <i class="bi bi-box-arrow-right"></i> Salir
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="card card-md">
+                <div class="logo">🐾</div>
+                <h1 id="welcome-message">¡Bienvenido a nuestro Hotel de Mascotas!</h1>
+                
+                <div class="alert alert-warning" id="guest-message">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <div>
+                        <p>Para acceder a las cámaras de vigilancia, por favor inicia sesión o regístrate.</p>
+                        <div class="d-flex gap-2 mt-2">
+                            <button class="btn btn-outline-primary btn-sm" id="btn-login-2">
+                                <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                            </button>
+                            <button class="btn btn-primary btn-sm" id="btn-register-2">
+                                <i class="bi bi-person-plus"></i> Registrarse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="user-form" style="display: none;">
+                    <form id="camara-form" action="ver_camara.php" method="post">
+                        <div class="form-group">
+                            <label for="numero_camara">Selecciona cámara</label>
+                            <div class="input-group">
+                                <i class="bi bi-camera-video"></i>
+                                <select class="form-control" id="numero_camara" name="numero_camara" required>
+                                    <option value="" disabled selected>Seleccione una cámara</option>
+                                    <option value="1">Cámara 1 - Área de juegos</option>
+                                    <option value="2">Cámara 2 - Dormitorios</option>
+                                    <option value="3">Cámara 3 - Zona de alimentación</option>
+                                    <option value="4">Cámara 4 - Patio exterior</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nombre_mascota">Nombre de tu mascota</label>
+                            <div class="input-group">
+                                <i class="bi bi-paw"></i>
+                                <input type="text" class="form-control" id="nombre_mascota" name="nombre_mascota" 
+                                       placeholder="Ej: Firulais" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="bi bi-eye-fill"></i> Ver mascota
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <p>¿Quieres ver todas tus mascotas? <a href="#" id="ver-historial">Ver historial completo</a></p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Section -->
+                <div class="faq-toggle">
+                    <button class="btn btn-outline-primary" id="toggle-faq">
+                        <i class="bi bi-question-circle"></i> Ver Preguntas Frecuentes
+                    </button>
+                </div>
+                
+                <div class="faq-section" id="faq-section">
+                    <h3><i class="bi bi-question-circle"></i> Preguntas Frecuentes</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>No he recibido el correo para cambiar mi contraseña</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Si no has recibido el correo para cambiar la contraseña:</p>
+                            <ul>
+                                <li>Revisa tu carpeta de spam/correo no deseado</li>
+                                <li>Asegúrate de haber ingresado correctamente tu dirección de correo</li>
+                                <li>Puedes intentar enviar nuevamente el enlace desde la opción "¿Olvidaste tu contraseña?"</li>
+                                <li>Si el problema persiste, contacta al hotel por teléfono: 555-123-4567</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>¿Cómo registro a mi mascota?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>El registro de mascotas se realiza en dos pasos:</p>
+                            <ol>
+                                <li>Primero crea tu cuenta de usuario en el formulario de registro</li>
+                                <li>Luego de iniciar sesión, completa el formulario con:</li>
+                                <ul>
+                                    <li>Nombre de tu mascota</li>
+                                    <li>Cámara que deseas visualizar</li>
+                                    <li>Datos adicionales de tu mascota (en el historial completo)</li>
+                                </ul>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>¿El proceso es por WhatsApp?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No, todo el proceso se realiza directamente a través de esta plataforma web. No es necesario usar WhatsApp.</p>
+                            <p>Para asistencia personalizada puedes llamar al hotel: 555-123-4567</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>¿Me asignan una cámara específica?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No, puedes seleccionar libremente entre las 4 cámaras disponibles:</p>
+                            <ul>
+                                <li><strong>Cámara 1</strong> - Área de juegos</li>
+                                <li><strong>Cámara 2</strong> - Dormitorios</li>
+                                <li><strong>Cámara 3</strong> - Zona de alimentación</li>
+                                <li><strong>Cámara 4</strong> - Patio exterior</li>
+                            </ul>
+                            <p>Puedes cambiar de cámara en cualquier momento.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>¿Cómo me conecto al servidor?</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>La conexión es completamente automática:</p>
+                            <ul>
+                                <li>El sistema se conecta directamente a las cámaras</li>
+                                <li>No necesitas configurar nada manualmente</li>
+                                <li>Simplemente selecciona la cámara que deseas ver</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>No puedo iniciar sesión</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Si tienes problemas para iniciar sesión:</p>
+                            <ol>
+                                <li>Verifica que estés usando el correo y contraseña correctos</li>
+                                <li>Si es tu primer acceso, asegúrate de haber completado el registro</li>
+                                <li>Prueba con las credenciales de demostración: 
+                                    <ul>
+                                        <li>Correo: usuario@ejemplo.com</li>
+                                        <li>Contraseña: password123</li>
+                                    </ul>
+                                </li>
+                                <li>Si el problema persiste, contacta al hotel por teléfono: 555-123-4567</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-camera-reels"></i>
+                        </div>
+                        <h3>Cámaras 24/7</h3>
+                        <p>Vigilancia continua HD</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3>Seguridad</h3>
+                        <p>Áreas supervisadas</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <h3>Cuidado</h3>
+                        <p>Personal especializado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modal de Login -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</h3>
+                <button class="close">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="alert alert-danger" id="login-alert" style="display: none;"></div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <div class="input-group">
+                            <i class="bi bi-envelope"></i>
+                            <input type="email" class="form-control" id="email" required placeholder="tucorreo@ejemplo.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <div class="input-group">
+                            <i class="bi bi-lock"></i>
+                            <input type="password" class="form-control" id="password" required placeholder="••••••••">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <p>¿No tienes cuenta? <a href="#" id="go-to-register">Regístrate aquí</a></p>
+                <p><a href="#" id="forgot-password">¿Olvidaste tu contraseña?</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Registro -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="bi bi-person-plus"></i> Crear cuenta</h3>
+                <button class="close">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="alert alert-danger" id="register-alert" style="display: none;"></div>
+                
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="name">Nombre completo</label>
+                        <div class="input-group">
+                            <i class="bi bi-person"></i>
+                            <input type="text" class="form-control" id="name" required placeholder="Juan Pérez">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email">Correo electrónico</label>
+                        <div class="input-group">
+                            <i class="bi bi-envelope"></i>
+                            <input type="email" class="form-control" id="register-email" required placeholder="tucorreo@ejemplo.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">Contraseña</label>
+                        <div class="input-group">
+                            <i class="bi bi-lock"></i>
+                            <input type="password" class="form-control" id="register-password" required placeholder="••••••••">
+                        </div>
+                        <small class="text-muted">Mínimo 8 caracteres, incluir números y letras</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Confirmar contraseña</label>
+                        <div class="input-group">
+                            <i class="bi bi-lock"></i>
+                            <input type="password" class="form-control" id="confirm-password" required placeholder="••••••••">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pet-name">Nombre de tu mascota</label>
+                        <div class="input-group">
+                            <i class="bi bi-paw"></i>
+                            <input type="text" class="form-control" id="pet-name" required placeholder="Ej: Firulais">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-block">
+                            <i class="bi bi-person-plus"></i> Registrarse
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <p>¿Ya tienes cuenta? <a href="#" id="go-to-login">Inicia sesión aquí</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Recuperación -->
+    <div class="modal" id="recover-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="bi bi-key"></i> Recuperar contraseña</h3>
+                <button class="close">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="tabs">
+                    <div class="tab active" data-tab="recover">Recuperar contraseña</div>
+                    <div class="tab" data-tab="reset">Restablecer contraseña</div>
+                </div>
+                
+                <div class="alert" id="recover-alert" style="display: none;"></div>
+                
+                <div class="tab-content active" id="recover-tab">
+                    <form id="recover-form">
+                        <div class="form-group">
+                            <label for="recover-email">Correo electrónico</label>
+                            <div class="input-group">
+                                <i class="bi bi-envelope"></i>
+                                <input type="email" class="form-control" id="recover-email" required placeholder="tucorreo@ejemplo.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="bi bi-send"></i> Enviar enlace
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="reset-tab">
+                    <form id="reset-form">
+                        <input type="hidden" id="reset-token">
+                        
+                        <div class="form-group">
+                            <label for="new-password">Nueva contraseña</label>
+                            <div class="input-group">
+                                <i class="bi bi-lock"></i>
+                                <input type="password" class="form-control" id="new-password" required placeholder="••••••••">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm-new-password">Confirmar contraseña</label>
+                            <div class="input-group">
+                                <i class="bi bi-lock"></i>
+                                <input type="password" class="form-control" id="confirm-new-password" required placeholder="••••••••">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="bi bi-check-circle"></i> Cambiar contraseña
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <p><a href="#" id="back-to-login"><i class="bi bi-arrow-left"></i> Volver a inicio de sesión</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p><i class="bi bi-c-circle"></i> 2023 Hotel de Mascotas VIP | <i class="bi bi-telephone"></i> 555-123-4567 | <i class="bi bi-envelope"></i> contacto@hotelmascotasvip.com</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

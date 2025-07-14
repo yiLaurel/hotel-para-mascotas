@@ -1,0 +1,303 @@
+:root {
+    --primary: #3498db;
+    --secondary: #e74c3c;
+    --dark: #2c3e50;
+    --light: #ecf0f1;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: #000;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#contenedor-principal {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+}
+
+#header-camara {
+    background: linear-gradient(90deg, rgba(44,62,80,0.9) 0%, rgba(52,152,219,0.8) 100%);
+    padding: 12px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+}
+
+#info-camara {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.info-badge {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 6px 15px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(5px);
+}
+
+#contenedor-video {
+    position: relative;
+    overflow: hidden;
+}
+
+#video-stream {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: <?= $camara_actual['filtro'] ? 'scaleX(-1)' : '' ?>;
+    transition: transform 0.3s;
+    transform-origin: center center;
+}
+
+#selector-camaras {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 100;
+}
+
+.btn-camara {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid <?= $camara == '1' ? 'var(--primary)' : 'rgba(255,255,255,0.2)' ?>;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.btn-camara:hover, .btn-camara.activa {
+    background: var(--primary);
+    transform: translateY(-5px);
+}
+
+#controles-avanzados {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+}
+
+.btn-control {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-control:hover {
+    background: var(--secondary);
+    transform: scale(1.1);
+}
+
+/* Efecto de carga mejorado */
+#cargando {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    transition: opacity 0.5s ease;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255,255,255,0.1);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Mensaje de error */
+.error-mensaje {
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.btn-reintentar {
+    background: var(--primary);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Controles de zoom */
+#controles-zoom {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+}
+
+/* Estilos para el sistema de reportes */
+#btn-reportar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#btn-reportar:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+.modal-reporte {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenido {
+    background: #2c3e50;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.modal-contenido h2 {
+    margin-top: 0;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-contenido label {
+    display: block;
+    margin: 15px 0 5px;
+}
+
+.modal-contenido select, 
+.modal-contenido textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #34495e;
+    background: #34495e;
+    color: white;
+}
+
+.modal-contenido textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.botones-modal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.botones-modal button {
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.botones-modal button:hover {
+    opacity: 0.9;
+}
+
+.btn-cancelar {
+    background: #7f8c8d;
+    color: white;
+}
+
+.btn-enviar {
+    background: var(--secondary);
+    color: white;
+}
+
+.notificacion {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #27ae60;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: none;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
